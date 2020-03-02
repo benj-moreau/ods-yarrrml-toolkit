@@ -6,6 +6,7 @@
 *.rdfxml
 *.yml
 *.yarrrml
+*.json
 
 # intelliJ
 .idea/
