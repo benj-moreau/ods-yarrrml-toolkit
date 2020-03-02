@@ -7,6 +7,9 @@
 *.yml
 *.yarrrml
 *.json
+*.ql
+*.sparql
+*.query
 
 # intelliJ
 .idea/
