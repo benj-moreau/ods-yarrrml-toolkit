@@ -5,7 +5,7 @@ A Python3 implementation of YARRRML Mapper and SPARQL Querying for OpenDataSoft-
 First, clone the repository:
 
 ```bash
-git clone https://github.com/benjimor/YARRRMLMapper.git
+git clone https://github.com/benjimor/ods-yarrrml-toolkit.git
 ```
 
 Then, assuming you already have `Python3` and `Pip` installed, install the dependencies:
