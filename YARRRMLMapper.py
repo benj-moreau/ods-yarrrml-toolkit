@@ -191,7 +191,7 @@ def parse_object(rdf_semantic_mapping, subject, predicate, obj, resources, prefi
 def parse_uri_template(template, prefixes):
     if template == 'a':
         return RDF.type
-    uri_prefix = '{}:'.format(template.split(':', 1)[0])
+    uri_prefix = f'{template.split(":", 1)[0]}'
     if uri_prefix in prefixes:
         template = template.replace(uri_prefix, prefixes[uri_prefix])
     return URIRef(template)
@@ -249,7 +249,7 @@ def uniformize_predicate_object(predicate_object):
                     datatype = obj.get('datatype')
                     objs.append(value)
                     if language:
-                        objs.append("{}~lang".format(language))
+                        objs.append(f"{language}~lang")
                     if datatype:
                         objs.append(datatype)
                 else:
