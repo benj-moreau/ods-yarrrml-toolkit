@@ -1,8 +1,10 @@
 from rdflib import Graph, URIRef, Literal, RDF, RDFS, OWL, XSD
+from urllib.parse import quote, unquote
 import yaml
 import argparse
 
 import re
+import json
 
 url_regex = re.compile(
     r'^(?:http|ftp)s?://' # http:// or https://
@@ -11,6 +13,11 @@ url_regex = re.compile(
     r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
     r'(?::\d+)?' # optional port
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
+# to find references ex: $(field_name)
+REGEX_REFERENCES = re.compile('(\$\(.*?\))')
+REGEX_UNREFERENCES = re.compile('\$\(.*?\)')
+REGEX_REFERENCE_FIELD = re.compile('\$\((.*?)\)')
 
 
 YARRRML_KEYS = {
@@ -34,12 +41,75 @@ PREFIXES = {
 def main(source, destination, mapping):
     try:
         mapping = yaml.safe_load(mapping)
-        print('YARRRML Parsing: OK')
+        print('YARRRML Mapping Parsing: OK')
     except (yaml.parser.ParserError, yaml.scanner.ScannerError) as exception:
-        syntax_error = exception
-        print(f'YARRRML Syntax Error: {syntax_error}')
+        print(f'YARRRML Mapping Syntax Error: {exception}')
+        return
     mapping = parse_to_rdf_mapping(mapping)
-    destination.write(mapping.serialize(format='ttl').decode('utf-8'))
+    try:
+        source = json.loads(source.read())
+        source = source.get('records')
+        if not source:
+            print(f'JSON data Syntax Error: records key not found. get JSON from the ODS API')
+            return
+        print('JSON Dataset Parsing: OK')
+    except json.decoder.JSONDecodeError as exception:
+        print(f'JSON data Syntax Error: {exception}')
+        return
+
+    rdf_result = yarrrml_mapper(source, mapping)
+    destination.write(rdf_result.serialize(format='ttl').decode('utf-8'))
+    print('RDF exported to destination file !')
+
+
+def yarrrml_mapper(source, mapping):
+    rdf_result = Graph()
+    for record in source:
+        print(f'Transformation of record with id: {record["recordid"]}')
+        fields = record['fields']
+        # dict of references associated to their value in the record ex: {'$(field_name)': 'field_value' ,...}
+        references_values = {}
+        for field_name, field_value in list(fields.items()):
+            references_values[f'$({field_name})'] = field_value
+        # replace all references in the mapping by value
+        for s, p, o in mapping:
+            s = replace_references(s, references_values)
+            if s and isinstance(s, URIRef):
+                o = replace_references(o, references_values)
+                if o:
+                    rdf_result.add((s, p, o))
+    print('RDF Transformation: OK')
+    return rdf_result
+
+
+def replace_references(term, references_values):
+    any_reference_replaced = False
+    serialized_term = str(term)
+    matched_references = REGEX_REFERENCES.findall(serialized_term)
+    if not matched_references:
+        # term is a constant
+        return term
+    for reference in matched_references:
+        reference_value = references_values.get(reference)
+        if reference_value:
+            # use only unicode string
+            if isinstance(reference_value, int) or isinstance(reference_value, float):
+                reference_value = str(reference_value)
+            if len(matched_references) == 1 and serialized_term == reference:
+                # we do not want to quote reference_value that already are URIs
+                serialized_term = serialized_term.replace(reference, reference_value)
+            else:
+                serialized_term = serialized_term.replace(reference, quote(reference_value))
+            any_reference_replaced = True
+    if not any_reference_replaced:
+        # references value are all null
+        return None
+    if is_valid_uri(serialized_term):
+        term = URIRef(serialized_term)
+    else:
+        # literal
+        term = Literal(unquote(serialized_term), lang=term.language, datatype=term.datatype)
+    return term
 
 
 def parse_to_rdf_mapping(rml_mapping):
