@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 Transform an ODS json api result file into an RDF (ttl) file using a YARRRML Mapping with the following command:
 ```bash
-python YARRRMLMapper.py <source> <destination>.ttl <mapping>
+python YARRRMLMapper.py <source> <destination> <mapping>
 ```
 
 example:
@@ -34,7 +34,7 @@ python YARRRMLMapper.py data.json data.ttl mapping.yml
 
 Query the resulting ttl file with a SPARQL query using the following command:
 ```bash
-python SPARQL.py <source>.ttl <query>
+python SPARQL.py <source> <query>
 ```
 
 example:
