@@ -1,2 +1,2 @@
-rdflib
-PyYAML
+rdflib==4.2.2
+PyYAML==5.1.1
