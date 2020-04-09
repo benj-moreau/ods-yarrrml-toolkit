@@ -160,7 +160,7 @@ def parse_object(rdf_semantic_mapping, subject, predicate, obj, resources, prefi
     if len(obj) > 0:
         object_value = obj[0]
         uri = parse_uri_template(object_value, prefixes)
-        if is_valid_uri(uri):
+        if uri:
             # object is a URI (constant or template)
             obj = uri
         else:
@@ -177,7 +177,7 @@ def parse_object(rdf_semantic_mapping, subject, predicate, obj, resources, prefi
                         language = obj[i].replace('~lang', '')
                     else:
                         uri = parse_uri_template(obj[i], prefixes)
-                        if is_valid_uri(uri):
+                        if uri:
                             # datatype of the value (URI)
                             datatype = uri
                 if language:
@@ -194,7 +194,9 @@ def parse_uri_template(template, prefixes):
     uri_prefix = f'{template.split(":", 1)[0]}'
     if uri_prefix in prefixes:
         template = template.replace(uri_prefix, prefixes[uri_prefix])
-    return URIRef(template)
+    if is_valid_uri(template):
+        return URIRef(template)
+    return None
 
 
 def uniformize_predicate_object(predicate_object):
