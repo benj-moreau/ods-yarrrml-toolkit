@@ -159,9 +159,9 @@ def parse_predicate_objects(rml_mapping, resources, prefixes):
 def parse_object(rdf_semantic_mapping, subject, predicate, obj, resources, prefixes):
     if len(obj) > 0:
         object_value = obj[0]
-        uri = parse_uri_template(object_value, prefixes)
-        if uri:
+        if is_valid_uri(object_value):
             # object is a URI (constant or template)
+            uri = parse_uri_template(object_value, prefixes)
             obj = uri
         else:
             if object_value in resources:
@@ -177,7 +177,7 @@ def parse_object(rdf_semantic_mapping, subject, predicate, obj, resources, prefi
                         language = obj[i].replace('~lang', '')
                     else:
                         uri = parse_uri_template(obj[i], prefixes)
-                        if uri:
+                        if is_valid_uri(uri):
                             # datatype of the value (URI)
                             datatype = uri
                 if language:
@@ -194,9 +194,7 @@ def parse_uri_template(template, prefixes):
     uri_prefix = f'{template.split(":", 1)[0]}'
     if uri_prefix in prefixes:
         template = template.replace(uri_prefix, prefixes[uri_prefix])
-    if is_valid_uri(template):
-        return URIRef(template)
-    return None
+    return URIRef(template)
 
 
 def uniformize_predicate_object(predicate_object):
