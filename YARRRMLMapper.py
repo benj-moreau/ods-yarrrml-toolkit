@@ -93,7 +93,7 @@ def replace_references(term, references_values):
         reference_value = references_values.get(reference)
         if reference_value:
             # use only unicode string
-            if isinstance(reference_value, int) or isinstance(reference_value, float):
+            if isinstance(reference_value, int) or isinstance(reference_value, float) or isinstance(reference_value, list):
                 reference_value = str(reference_value)
             if len(matched_references) == 1 and serialized_term == reference:
                 # we do not want to quote reference_value that already are URIs
@@ -268,8 +268,8 @@ def get_keys(d, keys):
     return {}
 
 
-def is_valid_uri(URI):
-    return re.match(url_regex, URI) is not None
+def is_valid_uri(uri):
+    return re.match(url_regex, uri) is not None
 
 
 if __name__ == "__main__":
