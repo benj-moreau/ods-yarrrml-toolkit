@@ -47,17 +47,25 @@ def main(source, destination, mapping):
         return
     mapping = parse_to_rdf_mapping(mapping)
     try:
-        source = json.loads(source.read())
-        source = source.get('records')
-        if not source:
-            print(f'JSON data Syntax Error: records key not found. get JSON from the ODS API')
+        records = json.loads(source.read())
+        if isinstance(records, list):
+            # From ods JSON export tab
+            pass
+        elif isinstance(records, dict):
+            # From ods JSON API v1
+            records = records.get('records', None)
+        else:
+            print(f'JSON data Syntax Error: records key not found. get JSON from the ODS API or ODS export tab')
+            return
+        if not records:
+            print(f'JSON data Syntax Error: records key not found. get JSON from the ODS API or ODS export tab')
             return
         print('JSON Dataset Parsing: OK')
     except json.decoder.JSONDecodeError as exception:
         print(f'JSON data Syntax Error: {exception}')
         return
 
-    rdf_result = yarrrml_mapper(source, mapping)
+    rdf_result = yarrrml_mapper(records, mapping)
     destination.write(rdf_result.serialize(format='ttl').decode('utf-8'))
     print('RDF exported to destination file !')
 
