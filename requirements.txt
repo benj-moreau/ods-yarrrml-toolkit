@@ -1,4 +1,4 @@
 rdflib==5.0.0
-PyYAML==5.4
+PyYAML==5.4.1
 html5lib
-requests==2.23.0
+requests==2.25.1
