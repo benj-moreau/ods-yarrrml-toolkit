@@ -105,7 +105,7 @@ def replace_references(term, references_values):
                 reference_value = str(reference_value)
             if len(matched_references) == 1 and serialized_term == reference:
                 # we do not want to quote reference_value that already are URIs
-                serialized_term = serialized_term.replace(reference, reference_value)
+                serialized_term = serialized_term.replace(reference, str(reference_value))
             else:
                 serialized_term = serialized_term.replace(reference, quote(reference_value))
             any_reference_replaced = True
