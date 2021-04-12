@@ -112,7 +112,7 @@ def replace_references(term, references_values):
     if not any_reference_replaced:
         # references value are all null
         return None
-    if is_valid_uri(serialized_term):
+    if is_valid_uri(serialized_term) or isinstance(term, URIRef):
         term = URIRef(serialized_term)
     else:
         # literal
