@@ -38,10 +38,11 @@ PREFIXES = {
 # Parser for RML YARRRML Syntax: http://rml.io/yarrrml/spec/
 
 
-def main(source, destination, mapping):
+def main(source, destination, mapping, debug):
     try:
         mapping = yaml.safe_load(mapping)
-        print('YARRRML Mapping Parsing: OK')
+        if debug:
+            print('YARRRML Mapping Parsing: OK')
     except (yaml.parser.ParserError, yaml.scanner.ScannerError) as exception:
         print(f'YARRRML Mapping Syntax Error: {exception}')
         return
@@ -60,20 +61,22 @@ def main(source, destination, mapping):
         if not records:
             print(f'JSON data Syntax Error: records key not found. get JSON from the ODS API or ODS export tab')
             return
-        print('JSON Dataset Parsing: OK')
+        if debug:
+            print('JSON Dataset Parsing: OK')
     except json.decoder.JSONDecodeError as exception:
         print(f'JSON data Syntax Error: {exception}')
         return
 
-    rdf_result = yarrrml_mapper(records, mapping)
+    rdf_result = yarrrml_mapper(records, mapping, debug)
     destination.write(rdf_result.serialize(format='ttl').decode('utf-8'))
     print('RDF exported to destination file !')
 
 
-def yarrrml_mapper(source, mapping):
+def yarrrml_mapper(source, mapping, debug):
     rdf_result = Graph()
     for record in source:
-        print(f'Transformation of record with id: {record["recordid"]}')
+        if debug:
+            print(f'Transformation of record with id: {record["recordid"]}')
         fields = record['fields']
         # dict of references associated to their value in the record ex: {'$(field_name)': 'field_value' ,...}
         references_values = {}
@@ -86,7 +89,8 @@ def yarrrml_mapper(source, mapping):
                 o = replace_references(o, references_values)
                 if o:
                     rdf_result.add((s, p, o))
-    print('RDF Transformation: OK')
+    if debug:
+        print('RDF Transformation: OK')
     return rdf_result
 
 
@@ -285,5 +289,6 @@ if __name__ == "__main__":
     parser.add_argument('source', type=argparse.FileType('r'), help='json source file to be transformed')
     parser.add_argument('destination', type=argparse.FileType('w'), help='ttl file that will contain the rdf result')
     parser.add_argument('mapping', type=argparse.FileType('r'), help='yarmmml mapping file')
+    parser.add_argument('--debug', help='print debug messages', action='store_true')
     args = parser.parse_args()
-    main(args.source, args.destination, args.mapping)
+    main(args.source, args.destination, args.mapping, args.debug)
