@@ -19,6 +19,9 @@ REGEX_REFERENCES = re.compile('(\$\(.*?\))')
 REGEX_UNREFERENCES = re.compile('\$\(.*?\)')
 REGEX_REFERENCE_FIELD = re.compile('\$\((.*?)\)')
 
+# Files default IRI's
+DEFAULT_FILES_IRI = "http://example.org/{}"
+
 
 YARRRML_KEYS = {
     'mappings': ['mappings', 'mapping'],
@@ -107,6 +110,10 @@ def replace_references(term, references_values):
             # use only unicode string
             if isinstance(reference_value, int) or isinstance(reference_value, float) or isinstance(reference_value, list):
                 reference_value = str(reference_value)
+            elif isinstance(reference_value, dict):
+                # it's a file and it should be transformed to a URI
+                reference_value = serialized_term.replace(reference, DEFAULT_FILES_IRI.format(
+                    reference_value.get("filename")))
             if len(matched_references) == 1 and serialized_term == reference:
                 # we do not want to quote reference_value that already are URIs
                 serialized_term = serialized_term.replace(reference, str(reference_value))
