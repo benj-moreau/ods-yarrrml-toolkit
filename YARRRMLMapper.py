@@ -88,9 +88,9 @@ def yarrrml_mapper(source, mapping, debug):
             references_values[f'$({field_name})'] = field_value
         # replace all references in the mapping by value
         for s, p, o in mapping:
-            s = replace_references(s, references_values)
+            s = replace_references(s, references_values, debug)
             if s and isinstance(s, URIRef):
-                o = replace_references(o, references_values)
+                o = replace_references(o, references_values, debug)
                 if o:
                     rdf_result.add((s, p, o))
     if debug:
@@ -98,7 +98,7 @@ def yarrrml_mapper(source, mapping, debug):
     return rdf_result
 
 
-def replace_references(term, references_values):
+def replace_references(term, references_values, debug):
     any_reference_replaced = False
     serialized_term = str(term)
     matched_references = REGEX_REFERENCES.findall(serialized_term)
@@ -129,6 +129,8 @@ def replace_references(term, references_values):
             term = URIRef(serialized_term)
         else:
             # Serialized URI is not valid, triple will be ignored
+            if debug:
+                print(f'IRI "{serialized_term}" is not valid and will be ignored in the result')
             term = None
     else:
         # literal
