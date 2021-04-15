@@ -1,4 +1,5 @@
 from rdflib import Graph, URIRef, Literal, RDF, RDFS, OWL, XSD
+from rdflib.term import _is_valid_uri as rdflib_is_valid_uri
 from urllib.parse import quote, unquote
 import yaml
 import argparse
@@ -123,8 +124,12 @@ def replace_references(term, references_values):
     if not any_reference_replaced:
         # references value are all null
         return None
-    if is_valid_uri(serialized_term) or isinstance(term, URIRef):
-        term = URIRef(serialized_term)
+    if isinstance(term, URIRef):
+        if is_valid_uri(serialized_term) and rdflib_is_valid_uri(serialized_term):
+            term = URIRef(serialized_term)
+        else:
+            # Serialized URI is not valid, triple will be ignored
+            term = None
     else:
         # literal
         term = Literal(unquote(serialized_term), lang=term.language, datatype=term.datatype)
