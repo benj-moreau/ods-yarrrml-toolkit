@@ -11,6 +11,8 @@
 *.sparql
 *.query
 
+!example/*
+
 # intelliJ
 .idea/
 .idea/vcs.xml

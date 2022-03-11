@@ -1,0 +1,18 @@
+mappings:
+  city:
+    subject: https://www.example.org/city/$(location_city)/
+    predicateobjects:
+      - [a, 'http://dbpedia.org/ontology/City']
+      - ['http://schema.org/hasCelebrity', artist]
+      - ['rdfs:label', $(location_city)]
+  artist:
+    subject: https://www.example.org/artist/$(name)/
+    predicateobjects:
+      - [a, 'http://schema.org/Person']
+      - [a, 'http://dbpedia.org/ontology/Singer']
+      - [a, 'http://dbpedia.org/ontology/MusicalArtist']
+      - ['http://dbpedia.org/ontology/activeYearsEndDate', $(bio_yearsactiveend), 'http://www.w3.org/2001/XMLSchema#date']
+      - ['http://dbpedia.org/ontology/name', $(name)]
+      - ['http://dbpedia.org/ontology/location', city]
+      - ['rdfs:label', $(name)]
+    
