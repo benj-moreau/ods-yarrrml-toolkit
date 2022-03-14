@@ -12,7 +12,7 @@ Then, assuming you already have `Python3` and `Pip` installed, install the depen
 > Running in a virtual environment is recommended
 
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 # Run It
@@ -21,24 +21,24 @@ pip install -r requirements.txt
 
 Transform an ODS json api result file into an RDF (ttl) file using a YARRRML Mapping with the following command:
 ```bash
-python YARRRMLMapper.py <source> <destination> <mapping>
+python3 YARRRMLMapper.py <source> <destination> <mapping>
 ```
 
 example:
 > Files are in root directory of this project
 ```bash
-python YARRRMLMapper.py data.json data.ttl mapping.yml
+python3 YARRRMLMapper.py example/rap_world_data.json example/rdf_result_data.ttl example/rap_world_mapping.yml
 ```
 
 ## Query the resulting file using with SPARQL
 
 Query the resulting ttl file with a SPARQL query using the following command:
 ```bash
-python SPARQL.py <source> <query>
+python3 SPARQL.py <source> <query>
 ```
 
 example:
 > Files are in root directory of this project
 ```bash
-python SPARQL.py data.ttl query.sparql
+python3 SPARQL.py data.ttl query.sparql
 ```
