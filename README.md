@@ -40,5 +40,5 @@ python3 SPARQL.py <source> <query>
 example:
 > Files are in root directory of this project
 ```bash
-python3 SPARQL.py data.ttl query.sparql
+python3 SPARQL.py example/rdf_result_data.ttl example/query.sparql
 ```

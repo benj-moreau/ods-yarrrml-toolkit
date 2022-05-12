@@ -1,0 +1,114 @@
+@prefix ns1: <rdfs:> .
+@prefix ns2: <http://dbpedia.org/ontology/> .
+@prefix ns3: <http://schema.org/> .
+
+<https://www.example.org/artist/Furax%20Barbossa/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Toulouse/> ;
+    ns2:name "Furax Barbossa" ;
+    ns1:label "Furax Barbossa" .
+
+<https://www.example.org/artist/Goodie%20Mob/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Atlanta/> ;
+    ns2:name "Goodie Mob" ;
+    ns1:label "Goodie Mob" .
+
+<https://www.example.org/artist/La%20caution/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Noisy-le-Sec/> ;
+    ns2:name "La caution" ;
+    ns1:label "La caution" .
+
+<https://www.example.org/artist/Logic/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Gaithersburg/> ;
+    ns2:name "Logic" ;
+    ns1:label "Logic" .
+
+<https://www.example.org/artist/Main%20Attrakionz/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Oakland/> ;
+    ns2:name "Main Attrakionz" ;
+    ns1:label "Main Attrakionz" .
+
+<https://www.example.org/artist/Rae%20Sremmurd/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Tupelo/> ;
+    ns2:name "Rae Sremmurd" ;
+    ns1:label "Rae Sremmurd" .
+
+<https://www.example.org/artist/Sobre/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Caen/> ;
+    ns2:name "Sobre" ;
+    ns1:label "Sobre" .
+
+<https://www.example.org/artist/Timbaland/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Norfolk/> ;
+    ns2:name "Timbaland" ;
+    ns1:label "Timbaland" .
+
+<https://www.example.org/artist/Valete/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Lisbon/> ;
+    ns2:name "Valete" ;
+    ns1:label "Valete" .
+
+<https://www.example.org/artist/Youssef%20Swatt%27s/> a ns2:MusicalArtist,
+        ns2:Singer,
+        ns3:Person ;
+    ns2:location <https://www.example.org/city/Tournai/> ;
+    ns2:name "Youssef Swatt's" ;
+    ns1:label "Youssef Swatt's" .
+
+<https://www.example.org/city/Atlanta/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Goodie%20Mob/> ;
+    ns1:label "Atlanta" .
+
+<https://www.example.org/city/Caen/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Sobre/> ;
+    ns1:label "Caen" .
+
+<https://www.example.org/city/Gaithersburg/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Logic/> ;
+    ns1:label "Gaithersburg" .
+
+<https://www.example.org/city/Lisbon/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Valete/> ;
+    ns1:label "Lisbon" .
+
+<https://www.example.org/city/Noisy-le-Sec/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/La%20caution/> ;
+    ns1:label "Noisy-le-Sec" .
+
+<https://www.example.org/city/Norfolk/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Timbaland/> ;
+    ns1:label "Norfolk" .
+
+<https://www.example.org/city/Oakland/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Main%20Attrakionz/> ;
+    ns1:label "Oakland" .
+
+<https://www.example.org/city/Toulouse/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Furax%20Barbossa/> ;
+    ns1:label "Toulouse" .
+
+<https://www.example.org/city/Tournai/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Youssef%20Swatt%27s/> ;
+    ns1:label "Tournai" .
+
+<https://www.example.org/city/Tupelo/> a <http://purl.org/ontology/places#City> ;
+    ns3:hasCelebrity <https://www.example.org/artist/Rae%20Sremmurd/> ;
+    ns1:label "Tupelo" .
+

@@ -72,7 +72,7 @@ def main(source, destination, mapping, debug):
         return
 
     rdf_result = yarrrml_mapper(records, mapping, debug)
-    destination.write(rdf_result.serialize(format='ttl').decode('utf-8'))
+    destination.write(rdf_result.serialize(format='ttl'))
     print('RDF exported to destination file !')
 
 

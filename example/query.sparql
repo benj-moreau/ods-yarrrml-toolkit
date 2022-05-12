@@ -1,0 +1,5 @@
+SELECT ?singer_name WHERE {
+	?singer a <http://dbpedia.org/ontology/MusicalArtist>.
+	?singer <http://dbpedia.org/ontology/name> ?singer_name.
+	?singer <http://dbpedia.org/ontology/location> <https://www.example.org/city/Toulouse/>
+}

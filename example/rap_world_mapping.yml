@@ -2,7 +2,7 @@ mappings:
   city:
     subject: https://www.example.org/city/$(location_city)/
     predicateobjects:
-      - [a, 'http://dbpedia.org/ontology/City']
+      - [a, 'http://purl.org/ontology/places#City']
       - ['http://schema.org/hasCelebrity', artist]
       - ['rdfs:label', $(location_city)]
   artist:
@@ -14,5 +14,5 @@ mappings:
       - ['http://dbpedia.org/ontology/activeYearsEndDate', $(bio_yearsactiveend), 'http://www.w3.org/2001/XMLSchema#date']
       - ['http://dbpedia.org/ontology/name', $(name)]
       - ['http://dbpedia.org/ontology/location', city]
-      - ['rdfs:label', $(name)]
+      - ['http://www.w3.org/2000/01/rdf-schema#label', $(name)]
     
